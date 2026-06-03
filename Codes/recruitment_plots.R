@@ -1,5 +1,5 @@
-seedling_data<-  read.csv(
-  "Data_derived/DataS1/BCI.seedling.census.data.2001.to.2018.csv",
+seedling_data<-  read.csv(                                      ## seedling census data
+  "BCI.seedling.census.data.2001.to.2018.csv",
   header = TRUE,
 stringsAsFactors = FALSE
       # handles rows with missing values
