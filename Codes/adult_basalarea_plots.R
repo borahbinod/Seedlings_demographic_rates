@@ -1,4 +1,4 @@
-compute_basal_area_by_radius <- function(result_list, radii, focal_species) {
+compute_basal_area_by_radius <- function(result_list, radii, focal_species) {  # result_list argument takes a list that has adult tree numbers and basal area around fixed radius as list item
   
   n_plots <- nrow(result_list[[1]])
   n_radii <- length(radii)
