@@ -1,6 +1,6 @@
-seedling_plots<- readRDS("Data_derived/Input_rds/seedling_plots.Rds")
-adult_trees<- readRDS("Data_derived/Input_rds/adult_tree.Rds")
-radii <- c(5,8,10,12,15,17,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100)
+seedling_plots<- readRDS("seedling_plots.Rds") ## spatially thinned seedling plots
+adult_trees<- readRDS("adult_tree.Rds") ## adult trees in 50 ha plot
+radii <- c(5,8,10,12,15,17,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100) # radii tested for recruitment
 
 # adult census years: 2000, 2005, 2006, 2010, 2011, 2013, 2015, 2016
 # seedling census years: 2001 (2000), 2002 (2000), 2003 (2000), 2004 (2005), 2006 (2005), 2008 (2010), 2009 (2010), 2011 (2010), 2012 (2010), 2013 (2015), 2014 (2015), 2016 (2015), 2017 (2015), 2018 (2015)
