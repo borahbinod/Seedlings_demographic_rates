@@ -1,5 +1,5 @@
 # function to track seedling survival, here seed plots are fixed and seedling fate within them are tracked
-final_data<- 
+survival_plots<- readRds("Data_derived/seedling_plots_15m.Rds")
 track_seedlings <- function(data, species_name, 
                             min_interval = 3, # minimum interval is 3 years
                             dbh_max = 49) { # seedling dbh is 49mm or less
@@ -57,4 +57,4 @@ track_seedlings <- function(data, species_name,
   
   bind_rows(out_list)
 }
-survival_species<- track_seedlings(data = final_data,species_name = "EUGEGA")
+survival_species<- track_seedlings(data = survival_plots,species_name = "EUGEGA")
