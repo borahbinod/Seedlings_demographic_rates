@@ -9,13 +9,14 @@ radii <- c(5,8,10,12,15,17,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100) 
 # searching adult trees within radius i around individual seedling plot
 library(data.table)
 library(RANN)
+library(dbscan)
 
 # ----------------------------
 # 1. Filter years first
 # ----------------------------
 
-adult2000 <- adult_trees[adult_trees$year == 2000, ]
-seedling2001 <- seedling_plots[seedling_plots$year == 2001, ]
+adult2000 <- adult_trees[adult_trees$year == 2015, ]
+seedling2001 <- seedling_plots
 
 # ----------------------------
 # 2. Keep only needed columns (unique plots)
@@ -62,22 +63,21 @@ plot_xy  <- cbind(plots2001$plot.x, plots2001$plot.y)
 # 6. Radii
 # ----------------------------
 
-radii <- c(5,8,10,12,15,17,20,25,30,35,40,45,50,
-           55,60,65,70,75,80,85,90,95,100)
+radii <-  c(5,8,10,12,15,17,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100)
+
 
 # ----------------------------
 # 7. Radius search once (max radius)
 # ----------------------------
 
-nn <- RANN::nn2(
-  data = adult_xy,
-  query = plot_xy,
-  searchtype = "radius",
-  radius = max(radii)
+nn <- frNN(
+  x = adult_xy,
+  eps = max(radii),
+  query = plot_xy
 )
 
 # ----------------------------
-# 8. Build lookup object (fast indexing)
+# 8. Build lookup object
 # ----------------------------
 
 result_list <- vector("list", length(radii))
@@ -92,14 +92,14 @@ for (k in seq_along(radii)) {
   r <- radii[k]
   
   out <- plots2001
+  
   out$treeIDs <- vector("list", nrow(out))
   out$species <- vector("list", nrow(out))
   out$ba      <- vector("list", nrow(out))
   
   for (i in seq_len(nrow(out))) {
     
-    idx <- nn$nn.idx[i, ]
-    idx <- idx[idx > 0]
+    idx <- nn$id[[i]]
     
     if (length(idx) > 0) {
       
@@ -118,15 +118,12 @@ for (k in seq_along(radii)) {
       
       out$treeIDs[[i]] <- integer(0)
       out$species[[i]] <- character(0)
-      out$ba[[i]] <- numeric(0)
+      out$ba[[i]]      <- numeric(0)
+      
     }
   }
   
   out$radius <- r
-  result_list[[k]] <- out  # stored as adult_trees_seedling_distances.Rds
+  
+  result_list[[k]] <- out
 }
-
-x<- result_list[[1]] 
-
-source("Code/adult_basalarea_plots.R") # code to compute basal areas around seedling plots 
-xy<- compute_basal_area_by_radius(result_list = result_list,radii = radii,focal_species = "beilpe")
