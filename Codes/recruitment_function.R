@@ -1,5 +1,5 @@
 ## code to calculate # recruits per plot for unique species between censuses
-recruitment_plots<- readRDS("Data_derived/seedling_plots_20m.Rds")  # seedling plots are separated by 20m
+#recruitment_plots<- readRDS("Data_derived/seedling_plots_20m.Rds")  # seedling plots are separated by 20m
 track_recruitment <- function(data,
                               species_name,
                               min_interval = 3,
